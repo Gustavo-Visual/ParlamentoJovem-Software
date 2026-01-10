@@ -8,16 +8,19 @@ const STORAGE_KEY = 'pj_app_data_v2';
 const PRACTICAL_EPSILON = 1e-6;
 
 const QUESTIONS = [
-    { id: 1, type: 'Pitch', time: 60, text: "Explica o que é literacia financeira e porque importa para alunos da nossa escola." },
-    { id: 2, type: 'Pitch', time: 60, text: "Defende uma medida concreta para a escola (problema → proposta → impacto)." },
-    { id: 3, type: 'Conteúdo', time: 0, text: "Explica juros compostos com um exemplo simples do dia a dia (sem fórmulas)." },
-    { id: 4, type: 'Conteúdo', time: 0, text: "O que é TAEG e porque é importante quando comparas crédito/cartão?" },
-    { id: 5, type: 'Conteúdo', time: 0, text: "Diferença entre poupança e investimento, com um exemplo de cada." },
-    { id: 6, type: 'Pressão', time: 30, text: "Um adversário diz: 'Isto é responsabilidade dos pais, não da escola'. Responde em 30 segundos." },
-    { id: 7, type: 'Pressão', time: 0, text: "Pergunta difícil: 'Como garantem que a vossa medida não é só teoria e tem execução real?'" },
-    { id: 8, type: 'Escrita', time: 180, text: "Escreve 1 medida para a escola em 2 frases + 2 bullets: (a) quem executa, (b) quando e como." },
-    { id: 9, type: 'Compromisso', time: 0, text: "Nas próximas 2 semanas, que 2 entregáveis concretos consegues assumir (com prazos)?" },
-    { id: 10, type: 'Equipa', time: 0, text: "Conta um conflito em trabalho de grupo e como resolveste (o que fizeste tu, resultado final)." }
+    // PRINCIPAIS (clareza + liderança) - Perguntas 1-3
+    { id: 1, type: 'Principal', time: 60, text: "Em 1 frase: qual é o problema na escola e qual é a vossa solução?" },
+    { id: 2, type: 'Principal', time: 60, text: "Dá um exemplo real (da escola) que prove que o problema existe e que a solução faz sentido." },
+    { id: 3, type: 'Principal', time: 45, text: "Fecha com: (1) benefício para alunos, (2) benefício para escola, (3) por que agora." },
+    // DEBATE (ataque/defesa) - Perguntas 4-7
+    { id: 4, type: 'Debate', time: 30, text: "Ataque: 'Isto vai tirar tempo às aulas'. Responde com 1 concessão + 1 argumento forte." },
+    { id: 5, type: 'Debate', time: 30, text: "Ataque: 'Ninguém vai aderir'. Responde com 1 mecanismo concreto de adesão." },
+    { id: 6, type: 'Debate', time: 30, text: "O adversário propõe 'uma palestra única'. Mostra 2 falhas e apresenta 1 alternativa melhor." },
+    { id: 7, type: 'Debate', time: 30, text: "Resume a posição do adversário em 1 frase (fair) e depois destrói com 2 pontos." },
+    // SUPPORT (execução, escrita, organização) - Perguntas 8-10
+    { id: 8, type: 'Support', time: 180, text: "Escreve a medida em 2 frases + 2 bullets: quem executa / quando e como (em 30 dias)." },
+    { id: 9, type: 'Support', time: 45, text: "Diz 3 tarefas da próxima semana (com ordem) para pôr isto a mexer." },
+    { id: 10, type: 'Support', time: 45, text: "Conta um conflito num grupo e o que fizeste para resolver (resultado final)." }
 ];
 
 const RUBRIC = {
@@ -42,12 +45,9 @@ const INITIAL_CANDIDATES = Array(10).fill(null).map((_, i) => ({
 
 const getBadgeClass = (type) => {
     const classes = {
-        'Pitch': 'badge badge-pitch',
-        'Conteúdo': 'badge badge-conteudo',
-        'Pressão': 'badge badge-pressao',
-        'Escrita': 'badge badge-escrita',
-        'Compromisso': 'badge badge-compromisso',
-        'Equipa': 'badge badge-equipa'
+        'Principal': 'badge badge-pitch',
+        'Debate': 'badge badge-pressao',
+        'Support': 'badge badge-escrita'
     };
     return classes[type] || 'badge bg-slate-100 text-slate-600';
 };
@@ -214,22 +214,29 @@ export default function App() {
     const calculateSubScores = (scores) => {
         const get = (id) => scores[id] || 0;
         return {
-            comunicacao: (get(1) + get(2)) / 2,
-            conteudo: (get(3) + get(4) + get(5)) / 3,
-            pressao: (get(6) + get(7)) / 2,
-            escrita: get(8),
-            equipa: (get(9) + get(10)) / 2
+            // Principal (clareza + liderança): Perguntas 1-3
+            principal: (get(1) + get(2) + get(3)) / 3,
+            // Debate (ataque/defesa): Perguntas 4-7
+            debate: (get(4) + get(5) + get(6) + get(7)) / 4,
+            // Support (execução, escrita, organização): Perguntas 8-10
+            support: (get(8) + get(9) + get(10)) / 3
         };
     };
 
     const calculateProfileScores = (sub) => {
         return {
-            portavoz: (sub.comunicacao * 0.4) + (sub.pressao * 0.35) + (sub.conteudo * 0.25),
-            debatedor: (sub.pressao * 0.4) + (sub.conteudo * 0.35) + (sub.comunicacao * 0.25),
-            tecnico: (sub.conteudo * 0.55) + (sub.escrita * 0.25) + (sub.pressao * 0.20),
-            redator: (sub.escrita * 0.60) + (sub.conteudo * 0.25) + (sub.equipa * 0.15),
-            organizacao: (sub.equipa * 0.60) + (sub.comunicacao * 0.25) + (sub.escrita * 0.15),
-            geral: (sub.comunicacao + sub.conteudo + sub.pressao + sub.escrita + sub.equipa) / 5
+            // Porta-voz: precisa brilhar em Principal (clareza) + algum Debate
+            portavoz: (sub.principal * 0.60) + (sub.debate * 0.30) + (sub.support * 0.10),
+            // Debatedor: precisa dominar Debate (especialmente Q6 e Q7) + Principal
+            debatedor: (sub.debate * 0.60) + (sub.principal * 0.30) + (sub.support * 0.10),
+            // Técnico: Debate + Support (precisa saber defender e executar)
+            tecnico: (sub.debate * 0.40) + (sub.support * 0.40) + (sub.principal * 0.20),
+            // Redator: precisa ser impecável em Support (escrita/plano)
+            redator: (sub.support * 0.60) + (sub.principal * 0.25) + (sub.debate * 0.15),
+            // Organização: Support forte + capacidade de comunicar
+            organizacao: (sub.support * 0.55) + (sub.principal * 0.30) + (sub.debate * 0.15),
+            // Score geral: média ponderada das 3 categorias
+            geral: (sub.principal + sub.debate + sub.support) / 3
         };
     };
 
@@ -449,8 +456,8 @@ export default function App() {
                         >
                             <div className="flex items-center gap-4">
                                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold ${c.status === 'done'
-                                        ? 'bg-emerald-100 text-emerald-700'
-                                        : 'bg-slate-100 text-slate-500'
+                                    ? 'bg-emerald-100 text-emerald-700'
+                                    : 'bg-slate-100 text-slate-500'
                                     }`}>
                                     {idx + 1}
                                 </div>
