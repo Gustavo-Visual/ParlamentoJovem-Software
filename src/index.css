@@ -1,0 +1,143 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* === Custom Base Styles === */
+:root {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+body {
+  @apply bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 min-h-screen;
+}
+
+/* === Custom Utility Classes === */
+@layer components {
+  /* Glass Card Effect */
+  .glass-card {
+    @apply bg-white/90 backdrop-blur-md border border-white/20 shadow-xl;
+  }
+  
+  /* Gradient Backgrounds */
+  .gradient-primary {
+    @apply bg-gradient-to-r from-primary-600 via-primary-500 to-accent-500;
+  }
+  
+  .gradient-dark {
+    @apply bg-gradient-to-r from-slate-900 via-primary-900/50 to-slate-900;
+  }
+  
+  /* Button Styles */
+  .btn-primary {
+    @apply bg-gradient-to-r from-primary-600 to-primary-500 text-white font-semibold 
+           px-6 py-3 rounded-xl shadow-lg shadow-primary-500/25
+           hover:shadow-xl hover:shadow-primary-500/40 hover:scale-[1.02]
+           active:scale-[0.98] transition-all duration-200
+           disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100;
+  }
+  
+  .btn-secondary {
+    @apply bg-white/10 backdrop-blur-sm border border-white/20 text-white font-medium
+           px-5 py-2.5 rounded-xl
+           hover:bg-white/20 hover:border-white/30
+           active:scale-[0.98] transition-all duration-200;
+  }
+  
+  .btn-ghost {
+    @apply text-slate-400 hover:text-white hover:bg-white/10 
+           px-4 py-2 rounded-lg transition-all duration-200;
+  }
+  
+  /* Score Button (Interview) */
+  .score-btn {
+    @apply w-12 h-12 rounded-full font-bold text-lg transition-all duration-200
+           border-2 border-transparent;
+  }
+  
+  .score-btn-inactive {
+    @apply bg-slate-100 text-slate-600 hover:bg-slate-200 hover:scale-110;
+  }
+  
+  .score-btn-active {
+    @apply gradient-primary text-white scale-110 shadow-lg shadow-primary-500/40
+           ring-4 ring-primary-200;
+  }
+  
+  /* Card Hover Effect */
+  .card-hover {
+    @apply transition-all duration-300 hover:shadow-2xl hover:-translate-y-1;
+  }
+  
+  /* Header Nav Link */
+  .nav-link {
+    @apply px-4 py-2 rounded-lg transition-all duration-200;
+  }
+  
+  .nav-link-active {
+    @apply bg-white/15 text-white font-medium;
+  }
+  
+  .nav-link-inactive {
+    @apply text-white/60 hover:text-white hover:bg-white/10;
+  }
+  
+  /* Badge Styles */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wide;
+  }
+  
+  .badge-pitch {
+    @apply bg-gradient-to-r from-blue-500/20 to-cyan-500/20 text-cyan-600 border border-cyan-500/30;
+  }
+  
+  .badge-conteudo {
+    @apply bg-gradient-to-r from-emerald-500/20 to-green-500/20 text-emerald-600 border border-emerald-500/30;
+  }
+  
+  .badge-pressao {
+    @apply bg-gradient-to-r from-orange-500/20 to-amber-500/20 text-orange-600 border border-orange-500/30;
+  }
+  
+  .badge-escrita {
+    @apply bg-gradient-to-r from-purple-500/20 to-violet-500/20 text-purple-600 border border-purple-500/30;
+  }
+  
+  .badge-compromisso {
+    @apply bg-gradient-to-r from-pink-500/20 to-rose-500/20 text-pink-600 border border-pink-500/30;
+  }
+  
+  .badge-equipa {
+    @apply bg-gradient-to-r from-indigo-500/20 to-blue-500/20 text-indigo-600 border border-indigo-500/30;
+  }
+}
+
+/* === Scrollbar Styling === */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-slate-100 rounded-full;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-300 rounded-full hover:bg-slate-400;
+}
+
+/* === Print Styles === */
+@media print {
+  .no-print { display: none !important; }
+  body { 
+    background: white !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .shadow-lg, .shadow, .shadow-sm, .shadow-xl, .shadow-2xl { 
+    box-shadow: none !important; 
+  }
+  .glass-card {
+    background: white !important;
+    backdrop-filter: none !important;
+  }
+}
