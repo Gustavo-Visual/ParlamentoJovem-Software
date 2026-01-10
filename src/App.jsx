@@ -8,19 +8,19 @@ const STORAGE_KEY = 'pj_app_data_v2';
 const PRACTICAL_EPSILON = 1e-6;
 
 const QUESTIONS = [
-    // PRINCIPAIS (clareza + liderança) - Perguntas 1-3
-    { id: 1, type: 'Principal', time: 60, text: "Em 1 frase: qual é o problema na escola e qual é a vossa solução?" },
-    { id: 2, type: 'Principal', time: 60, text: "Dá um exemplo real (da escola) que prove que o problema existe e que a solução faz sentido." },
-    { id: 3, type: 'Principal', time: 45, text: "Fecha com: (1) benefício para alunos, (2) benefício para escola, (3) por que agora." },
-    // DEBATE (ataque/defesa) - Perguntas 4-7
-    { id: 4, type: 'Debate', time: 30, text: "Ataque: 'Isto vai tirar tempo às aulas'. Responde com 1 concessão + 1 argumento forte." },
-    { id: 5, type: 'Debate', time: 30, text: "Ataque: 'Ninguém vai aderir'. Responde com 1 mecanismo concreto de adesão." },
-    { id: 6, type: 'Debate', time: 30, text: "O adversário propõe 'uma palestra única'. Mostra 2 falhas e apresenta 1 alternativa melhor." },
-    { id: 7, type: 'Debate', time: 30, text: "Resume a posição do adversário em 1 frase (fair) e depois destrói com 2 pontos." },
-    // SUPPORT (execução, escrita, organização) - Perguntas 8-10
-    { id: 8, type: 'Support', time: 180, text: "Escreve a medida em 2 frases + 2 bullets: quem executa / quando e como (em 30 dias)." },
-    { id: 9, type: 'Support', time: 45, text: "Diz 3 tarefas da próxima semana (com ordem) para pôr isto a mexer." },
-    { id: 10, type: 'Support', time: 45, text: "Conta um conflito num grupo e o que fizeste para resolver (resultado final)." }
+    // PRINCIPAIS (comunicação) - Perguntas 1-3
+    { id: 1, type: 'Principal', time: 45, text: "Conta uma situação em que um aluno gastou dinheiro e depois arrependeu-se. O que faltou na decisão?" },
+    { id: 2, type: 'Principal', time: 45, text: "Explica a um colega em 20 segundos: 'pagar a prestações' é bom ou mau? Depende de quê?" },
+    { id: 3, type: 'Principal', time: 45, text: "Diz 1 mensagem curta que convença alunos a aparecer (sem parecer 'palestra')." },
+    // DEBATE (ataque/defesa — sem proposta) - Perguntas 4-7
+    { id: 4, type: 'Debate', time: 30, text: "Ataque: 'Literacia financeira é seca e inútil.' Resposta: 1 exemplo + 1 consequência." },
+    { id: 5, type: 'Debate', time: 30, text: "Ataque: 'Isso não muda nada, a malta continua a gastar.' Resposta: 1 mudança concreta de comportamento." },
+    { id: 6, type: 'Debate', time: 30, text: "Ataque: 'Basta dizer poupa.' Resposta: por que isso falha + o que falta (crédito/custo total/scams)." },
+    { id: 7, type: 'Debate', time: 30, text: "Ataque: 'Se falas de scams/crypto, estás a assustar.' Resposta: diferença entre informar e assustar." },
+    // SUPPORT (execução) - Perguntas 8-10
+    { id: 8, type: 'Support', time: 60, text: "Cria uma atividade de 10 minutos (estilo desafio) que ensine 1 ideia útil de literacia financeira e que faça colegas quererem participar/votar em nós." },
+    { id: 9, type: 'Support', time: 60, text: "Como medes se resultou? Diz 2 indicadores simples (ex.: antes/depois num quiz curto)." },
+    { id: 10, type: 'Support', time: 120, text: "Escreve: como vais ajudar a lista a receber votos?" }
 ];
 
 const RUBRIC = {
